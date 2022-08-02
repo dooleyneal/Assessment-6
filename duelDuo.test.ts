@@ -18,3 +18,17 @@ test('Title shows up when page loads', async () => {
     const displayed = await title.isDisplayed()
     expect(displayed).toBe(true)
 })
+
+test('Add to duo displays div with id="player-duo"', async () => {
+    await driver.findElement(By.id('draw')).click()
+    await driver.findElement(By.className('bot-btn')).click()
+    expect(await driver.findElement(By.id('player-duo')).isDisplayed()).toBe(true)
+})
+
+test('Removed from duo sends bot back to the end of choices', async () => {
+    await driver.findElement(By.id('draw')).click()
+    const bot = await driver.findElement(By.xpath("/html/body/section[1]/div/div[1]"))
+    await driver.findElement(By.xpath("/html/body/section[1]/div/div[1]/button")).click()
+    await driver.findElement(By.xpath("/html/body/section[2]/section[1]/div/div/button")).click()
+    expect(await driver.findElement(By.xpath("/html/body/section[1]/div/div[5]"))).toEqual(bot)
+})
